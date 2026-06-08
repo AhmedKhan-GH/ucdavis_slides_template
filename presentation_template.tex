@@ -1,0 +1,438 @@
+% =====================================================================
+%  UC Davis presentation TEMPLATE (placeholder content)
+%  Derived from the team's final presentation house style:
+%  Aggie Blue + Aggie Gold palette, gold accent rule under titles,
+%  blue section dividers, poster-style footer.
+%
+%  HOW TO USE
+%    1. Edit \title / \subtitle / \author / \institute / footer below.
+%    2. Replace every "Placeholder ..." line and \placeholderfig{...} box
+%       with your real content / \includegraphics{your_figure.png}.
+%    3. Add or remove \section{} and \begin{frame}{} blocks as needed.
+%  Compiles with standard pdfLaTeX out of the box (no external images
+%  required except the optional title logo).
+% =====================================================================
+
+\documentclass[10pt,aspectratio=169]{beamer}
+
+% ====================
+% Packages
+% ====================
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{hyperref}
+
+% ====================
+% UC Davis brand colors (digital palette)
+% ====================
+\definecolor{aggieblue}{HTML}{022851}
+\definecolor{aggiegold}{HTML}{FFBF00}
+\definecolor{aggieblueDark}{HTML}{011936}
+\definecolor{aggiegoldDark}{HTML}{C99700}
+\definecolor{coolgray}{RGB}{77,79,83}
+\definecolor{boxgray}{RGB}{238,235,233}
+
+% ====================
+% Fonts — standard pdfLaTeX (Latin Modern Sans for body/headings).
+% \Raleway and \Lato are kept as \sffamily aliases so existing markup
+% (font=\Raleway\bfseries..., family=\Lato) still compiles unchanged.
+% ====================
+\renewcommand{\familydefault}{\sfdefault}
+\newcommand{\Raleway}{\sffamily}
+\newcommand{\Lato}{\sffamily}
+
+% ====================
+% Beamer color slots
+% ====================
+\setbeamercolor*{palette primary}{fg=white,bg=aggieblue}
+\setbeamercolor*{palette secondary}{fg=white,bg=coolgray}
+\setbeamercolor*{palette tertiary}{fg=white,bg=aggieblueDark}
+\setbeamercolor*{palette quaternary}{fg=aggieblue,bg=aggiegold}
+
+\setbeamercolor{structure}{fg=aggieblue}
+\setbeamercolor{titlelike}{fg=aggieblue}
+\setbeamercolor{frametitle}{fg=white,bg=aggieblue}
+\setbeamercolor{title}{fg=white,bg=aggieblue}
+\setbeamercolor{author}{fg=aggieblue}
+\setbeamercolor{institute}{fg=coolgray}
+\setbeamercolor{date}{fg=coolgray}
+
+\setbeamercolor{itemize item}{fg=aggieblue}
+\setbeamercolor{itemize subitem}{fg=aggiegoldDark}
+\setbeamercolor{enumerate item}{fg=aggieblue}
+\setbeamercolor{description item}{fg=aggieblue}
+
+\setbeamercolor{block title}{fg=white,bg=aggieblue}
+\setbeamercolor{block body}{fg=black,bg=boxgray}
+\setbeamercolor{block title alerted}{fg=aggieblue,bg=aggiegold}
+\setbeamercolor{block body alerted}{fg=black,bg=boxgray}
+
+\setbeamercolor{section in toc}{fg=aggieblue}
+\setbeamercolor{subsection in toc}{fg=aggieblueDark}
+
+\setbeamercolor{caption name}{fg=aggieblue}
+
+% ====================
+% Fonts (sizes/weights)
+% ====================
+\setbeamerfont{title}{family=\Raleway,series=\bfseries,size=\LARGE}
+\setbeamerfont{subtitle}{family=\Lato,size=\normalsize}
+\setbeamerfont{author}{family=\Lato,size=\small}
+\setbeamerfont{institute}{family=\Lato,size=\footnotesize}
+\setbeamerfont{date}{family=\Lato,size=\footnotesize}
+\setbeamerfont{frametitle}{family=\Raleway,series=\bfseries,size=\large}
+\setbeamerfont{block title}{family=\Raleway,series=\bfseries}
+\setbeamerfont{section in toc}{family=\Raleway,series=\bfseries}
+\setbeamerfont{footline}{family=\Lato,size=\scriptsize}
+
+% ====================
+% Frame title with Aggie Gold accent bar (poster-style separator)
+% ====================
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=3.0ex,dp=1.4ex,leftskip=1em,rightskip=1em]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle%
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=0.35ex,dp=0pt]{palette quaternary}%
+  \end{beamercolorbox}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=north east,inner sep=0pt] at ([xshift=-0.14cm,yshift=-0.14cm]current page.north east)
+      {\coemark};
+  \end{tikzpicture}%
+  \vspace{1.0ex}
+}
+
+% Suppress nav symbols (matches poster aesthetic)
+\beamertemplatenavigationsymbolsempty
+
+% ====================
+% Itemize bullet (small filled square, matches Gemini theme)
+% ====================
+\setbeamertemplate{itemize item}{\raise0.5ex \hbox{\vrule width 0.5ex height 0.5ex}}
+\setbeamertemplate{itemize subitem}{\raise0.3ex \hbox{\vrule width 0.5ex height 0.5ex}}
+\setbeamertemplate{itemize subsubitem}{\raise0.2ex \hbox{\vrule width 0.5ex height 0.5ex}}
+
+% ====================
+% Footer: thin gold rule + repo / event / contact
+% ====================
+\makeatletter
+\newcommand{\footercontent}[1]{\renewcommand{\insertfootercontent}{#1}}
+\newcommand{\insertfootercontent}{}
+
+\setbeamertemplate{footline}{%
+  \ifx\insertfootercontent\@empty\else
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.3ex,dp=0pt]{palette quaternary}\end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=\paperwidth,ht=2.4ex,dp=1.2ex,leftskip=1em,rightskip=1em]{palette primary}%
+      \usebeamerfont{footline}\insertfootercontent\hfill\insertframenumber{}/\inserttotalframenumber%
+    \end{beamercolorbox}%
+  \fi
+}
+\makeatother
+
+% ====================
+% Section divider slide (Aggie Blue background, gold rule)
+% ====================
+\AtBeginSection[]{%
+  \begin{frame}[plain,noframenumbering]
+    \begin{tikzpicture}[remember picture,overlay]
+      \fill[aggieblue] (current page.south west) rectangle (current page.north east);
+      \fill[aggiegold] ([yshift=-0.6cm]current page.center) rectangle ([yshift=-0.55cm,xshift=4cm]current page.center);
+      \fill[aggiegold] ([yshift=-0.6cm]current page.center) rectangle ([yshift=-0.55cm,xshift=-4cm]current page.center);
+      \node[anchor=center,text=white,font=\Raleway\bfseries\Huge]
+        at ([yshift=0.4cm]current page.center) {\insertsectionhead};
+    \end{tikzpicture}
+  \end{frame}
+}
+
+% ====================
+% Placeholder figure box — labeled gray panel that stands in for a real
+% image so the template compiles with NO external files. Swap each call
+% for \includegraphics[...]{your_figure.png} when you have the asset.
+%   \placeholderfig{caption}            % default height
+%   \placeholderfig[6cm]{caption}       % custom height
+% ====================
+\newcommand{\placeholderfig}[2][3.5cm]{%
+  \begin{tikzpicture}
+    \node[draw=aggieblue,line width=0.4pt,fill=boxgray,
+          minimum width=0.92\linewidth,minimum height=#1,
+          align=center,rounded corners,
+          font=\Lato\itshape,text=coolgray]
+      {[\,figure placeholder\,]\\#2};
+  \end{tikzpicture}%
+}
+
+% Reusable gold "highlight" callout box (the deck's goal/takeaway box)
+\newcommand{\highlightbox}[1]{%
+  \setbeamercolor{boxblue}{bg=aggieblue,fg=white}%
+  \begin{beamercolorbox}[wd=\textwidth,rounded=true,leftskip=0.7em,rightskip=0.7em,sep=0.6em]{boxblue}%
+    \scriptsize\Lato\bfseries\color{white}#1%
+  \end{beamercolorbox}%
+}
+
+% COE corner mark: small logo with a thin white border (matches the poster template's
+% \logoleft treatment: \fboxsep=0pt, white \fbox around the College of Engineering logo).
+\newcommand{\coemark}{{\setlength{\fboxsep}{0pt}\setlength{\fboxrule}{1pt}%
+  \color{white}\fbox{\includegraphics[height=0.5cm]{coe_logo.jpg}}}}
+
+% ====================
+% Title / authors  --- EDIT THESE ---
+% ====================
+\title{Presentation Title}
+\subtitle{One-line subtitle or descriptive tagline}
+\author{First Author \and Second Author \and Third Author}
+\institute{Your Department \\ University of California, Davis}
+\date{\today}
+
+
+% Footer (repo / event / contact)  --- EDIT THESE ---
+\footercontent{%
+  \href{https://github.com/your-org/your-repo}{github.com/your-org/your-repo}
+  \enspace$\bullet$\enspace
+  Event / Venue Year
+  \enspace$\bullet$\enspace
+  \href{mailto:you@ucdavis.edu}{you@ucdavis.edu}%
+}
+
+% ====================
+% Title page template (custom: gold rule, blue title block)
+% ====================
+\setbeamertemplate{title page}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[aggieblue]
+      ([yshift=1cm]current page.north west)
+      rectangle
+      ([yshift=-3.8cm]current page.north east);
+    \fill[aggiegold]
+      ([yshift=-3.8cm]current page.north west)
+      rectangle
+      ([yshift=-3.95cm]current page.north east);
+    \node[anchor=center,text=white,align=center,text width=14cm,
+          font=\Raleway\bfseries]
+      at ([yshift=-1.6cm]current page.north)
+      {\usebeamerfont{title}\inserttitle};
+    \node[anchor=center,text=aggiegold,align=center,text width=14cm,
+          font=\Lato]
+      at ([yshift=-2.4cm]current page.north)
+      {\usebeamerfont{subtitle}\insertsubtitle};
+    \node[anchor=north,text=aggieblue,align=center,font=\Lato]
+      at ([yshift=-5.4cm]current page.north)
+      {\usebeamerfont{author}\insertauthor};
+    \node[anchor=north,text=coolgray,align=center,font=\Lato]
+      at ([yshift=-6.0cm]current page.north)
+      {\usebeamerfont{institute}\insertinstitute};
+    \node[anchor=north,text=coolgray,align=center,font=\Lato]
+      at ([yshift=-6.9cm]current page.north)
+      {\usebeamerfont{date}\insertdate};
+  \end{tikzpicture}%
+}
+
+% =====================================================================
+% Document
+% =====================================================================
+\begin{document}
+
+% ---------- Title ----------
+{%
+  \setbeamertemplate{footline}{}%
+  \begin{frame}[plain,noframenumbering]
+    \titlepage
+  \end{frame}
+}
+
+% ---------- Table of contents ----------
+\begin{frame}{Contents}
+  \tableofcontents
+\end{frame}
+
+% =====================================================================
+\section{Introduction}
+% =====================================================================
+
+% Layout idiom: two columns — bullets + highlight box + figure | figure stack
+\begin{frame}{Motivation \& Background}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \usebeamerfont{footline}\color{coolgray}
+      \begin{itemize}
+        \item Placeholder: the problem and why it matters.
+        \item Placeholder: the current limitation or gap.
+        \item Placeholder: who is affected / the stakes.
+      \end{itemize}
+      \vspace{0.5em}
+      \highlightbox{Goal: state the one-sentence objective of this work.}
+      \vspace{0.8em}
+      \begin{minipage}[t]{0.48\textwidth}\centering
+        \placeholderfig[2.4cm]{context A}
+      \end{minipage}\hfill
+      \begin{minipage}[t]{0.48\textwidth}\centering
+        \placeholderfig[2.4cm]{context B}
+      \end{minipage}
+    \end{column}
+    \begin{column}{0.44\textwidth}\centering
+      {\footnotesize\Raleway\color{aggieblue} Supporting Diagram}\\[0.4em]
+      \placeholderfig[5.0cm]{key concept / system overview}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Layout idiom: single block callout
+\begin{frame}{Objective}
+  \begin{block}{What we are building}
+    Placeholder: one short paragraph describing the deliverable, the
+    approach in a sentence, and the property that makes it notable
+    (e.g.\ explainable, efficient, novel data).
+  \end{block}
+\end{frame}
+
+% =====================================================================
+\section{Methods}
+% =====================================================================
+
+% Layout idiom: table + bullets, two columns
+\begin{frame}{Approach --- Data \& Setup}
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}\centering
+      {\small\Raleway\bfseries\color{aggieblue} Dataset Breakdown}\\[1.0em]
+      \renewcommand{\arraystretch}{1.5}
+      \resizebox{\textwidth}{!}{%
+        \begin{tabular}{lccc}
+          \toprule
+          \textbf{Split} & \textbf{Total} & \textbf{Dropped} & \textbf{Final} \\
+          \midrule
+          Variant A & 000 & 00 & 000 \\
+          Variant B & 000 & 00 & 000 \\
+          \bottomrule
+        \end{tabular}}
+      \vspace{0.6em}
+      \begin{flushleft}\usebeamerfont{footline}\color{coolgray}
+        \textbf{Protocol:}
+        \begin{itemize}
+          \item Placeholder: cross-validation / split strategy.
+          \item Placeholder: balancing / sampling choice.
+        \end{itemize}
+      \end{flushleft}
+    \end{column}
+    \begin{column}{0.50\textwidth}\centering
+      {\small\Raleway\bfseries\color{aggieblue} Preprocessing}\\[1.0em]
+      \begin{beamercolorbox}[wd=\textwidth,rounded=true,sep=0.3em]{boxgray}
+        \centering\placeholderfig[4.2cm]{preprocessing / pipeline figure}
+      \end{beamercolorbox}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% Layout idiom: figure + nested bullets, two columns
+\begin{frame}{Approach --- Method Detail}
+  \begin{columns}[c]
+    \begin{column}{0.45\textwidth}\centering
+      \placeholderfig[5.0cm]{method schematic}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \begin{large}
+        \begin{itemize}\setlength{\itemsep}{1.2em}
+          \item \textbf{Component one:}
+          \begin{itemize}\setlength{\itemsep}{0.6em}
+            \item Placeholder sub-point.
+            \item Placeholder sub-point.
+          \end{itemize}
+          \item \textbf{Component two:} placeholder.
+        \end{itemize}
+      \end{large}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section{Results}
+% =====================================================================
+
+% Layout idiom: full-width metric table
+\begin{frame}{Results --- Metric Overview}
+  \centering
+  {\small\Raleway\bfseries\color{aggieblue} Model Performance}\\[0.3em]
+  \resizebox{0.95\textwidth}{!}{%
+    \begin{tabular}{lccccc}
+      \toprule
+      \textbf{Method} & \textbf{AUROC} & \textbf{AUPRC} & \textbf{Sensitivity} & \textbf{Specificity} & \textbf{F1} \\
+      \midrule
+      Baseline    & $00.0 \pm 0.0$ & $00.0 \pm 0.0$ & $00.0 \pm 0.0$ & $00.0 \pm 0.0$ & $00.0 \pm 0.0$ \\
+      \textbf{Ours} & $\mathbf{00.0 \pm 0.0}$ & $00.0 \pm 0.0$ & $00.0 \pm 0.0$ & $00.0 \pm 0.0$ & $00.0 \pm 0.0$ \\
+      \bottomrule
+    \end{tabular}}%
+  \vspace{0.8em}
+
+  \usebeamerfont{footline}\color{coolgray}
+  Placeholder: one-line reading of the headline result.
+\end{frame}
+
+% Layout idiom: full-width figure in a gray panel
+\begin{frame}{Results --- Key Figure}
+  \begin{beamercolorbox}[wd=0.95\textwidth,rounded=true,sep=0.5em]{boxgray}
+    \centering\placeholderfig[5.6cm]{main results plot (ROC / importance / curve)}
+  \end{beamercolorbox}
+\end{frame}
+
+% Layout idiom: figure + interpretation, two columns
+\begin{frame}{Results --- Interpretation}
+  \begin{columns}[c]
+    \begin{column}{0.55\textwidth}\centering
+      \placeholderfig[5.0cm]{saliency / attribution / comparison}
+    \end{column}
+    \begin{column}{0.40\textwidth}
+      \begin{itemize}\setlength{\itemsep}{1.0em}
+        \item Placeholder: what the figure shows.
+        \item Placeholder: why it is meaningful.
+        \item Placeholder: caveat or limitation.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =====================================================================
+\section{Conclusion}
+% =====================================================================
+
+\begin{frame}{Conclusion}
+  \begin{itemize}\setlength{\itemsep}{0.9em}
+    \item Placeholder: restate the main finding in one line.
+    \item Placeholder: the evidence that supports it.
+    \item Placeholder: the broader takeaway / impact.
+  \end{itemize}
+\end{frame}
+
+% =====================================================================
+\section{Future Work}
+% =====================================================================
+
+\begin{frame}{Next Steps}
+  \begin{itemize}\setlength{\itemsep}{0.9em}
+    \item Placeholder: immediate extension.
+    \item Placeholder: scaling / generalization direction.
+    \item Placeholder: deployment or follow-up study.
+  \end{itemize}
+\end{frame}
+
+% =====================================================================
+\section*{Acknowledgements}
+% =====================================================================
+
+{%
+  \setbeamertemplate{footline}{}%
+  \begin{frame}[plain,noframenumbering]
+    \begin{tikzpicture}[remember picture,overlay]
+      \fill[aggieblue] (current page.south west) rectangle (current page.north east);
+    \end{tikzpicture}
+    \vfill
+    \centering
+    {\Raleway\bfseries\Huge\color{white} Thank you}\\[0.6em]
+    {\color{aggiegold}\rule{4cm}{0.06cm}}\\[0.8em]
+    {\Lato\large\color{white} Questions?}
+    \vfill
+  \end{frame}
+}
+
+\end{document}
